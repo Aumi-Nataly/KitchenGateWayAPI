@@ -2,7 +2,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text;
 
 namespace AuthorizationAPI.Controllers
 {
@@ -28,7 +31,7 @@ namespace AuthorizationAPI.Controllers
         /// <param name="Credentials"></param>
         /// <returns></returns>
         [HttpPost("Register")]
-        public async Task<IActionResult> Register([FromBody] ParamUser paramUser)
+        public async Task<IActionResult> Register([FromBody] OtherParamUser paramUser)
         {
             var user = new IdentityUser { UserName = paramUser.UserName, Email = paramUser.Email };
 
@@ -56,6 +59,59 @@ namespace AuthorizationAPI.Controllers
             return Ok();
 
         }
+
+
+        /// <summary>
+        /// Вход в систему пользователей и выдача токена
+        /// </summary>
+        /// <param name="Credentials"></param>
+        /// <returns></returns>
+        [HttpPost("SignIn")]
+        public async Task<IActionResult> SignIn([FromBody] ParamUser paramUser)
+        {
+            //Получить всю инфу по пользователю
+            var user = await _userManager.FindByEmailAsync(paramUser.Email);
+
+            var result = await _signInManager.PasswordSignInAsync(user, paramUser.Password, false, false);
+          
+            if (result.Succeeded)
+            {
+  
+            IEnumerable<Claim> claims = await _userManager.GetClaimsAsync(user);
+            var token = GetToken(user, claims);
+
+                return Ok(token);
+            }
+
+            return BadRequest();
+        }
+
+        /// <summary>
+        /// Созание токена по данным пользователя
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="prinicpal"></param>
+        /// <returns></returns>
+        private string GetToken(IdentityUser user, IEnumerable<Claim> prinicpal)
+        {
+
+            var claims = prinicpal.ToList();
+            claims.Add(new Claim(ClaimTypes.Name, user.UserName));
+
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey));
+
+            var jwt = new JwtSecurityToken(
+                        issuer: _options.Issuer,
+                        audience: _options.Audience,
+                        claims: claims, 
+                        expires: DateTime.UtcNow.Add(TimeSpan.FromDays(1)),
+                        notBefore: DateTime.UtcNow,
+                        signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
+                );
+
+            return new JwtSecurityTokenHandler().WriteToken(jwt);
+        }
+
 
 
         /// <summary>

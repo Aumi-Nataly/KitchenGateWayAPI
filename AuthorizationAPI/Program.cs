@@ -1,21 +1,38 @@
 using AuthorizationAPI.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-////Токен
-//builder.Services.Configure<JWTSettings>(builder.Configuration.GetSection("JWTSettings"));
+//Токен
+builder.Services.Configure<JWTSettings>(builder.Configuration.GetSection("JWTSettings"));
 
-//// секретные фразы, которые знает только сервер
-//var secretKey = builder.Configuration.GetSection("JWTSettings:SecretKey").Value;
-//var issuer = builder.Configuration.GetSection("JWTSettings:Issuer").Value;
-//var audience = builder.Configuration.GetSection("JWTSettings:Audience").Value;
-//var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+// секретные фразы, которые знает только сервер
+var secretKey = builder.Configuration.GetSection("JWTSettings:SecretKey").Value;
+var issuer = builder.Configuration.GetSection("JWTSettings:Issuer").Value;
+var audience = builder.Configuration.GetSection("JWTSettings:Audience").Value;
+var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidIssuer = issuer,
+        ValidateAudience = true,
+        ValidAudience = audience,
+        ValidateLifetime = true,
+        IssuerSigningKey = signingKey,
+        ValidateIssuerSigningKey = true
+    };
 
+});
 //БД
 var connectionStringUsers = builder.Configuration.GetConnectionString("UserDB");
 builder.Services.AddDbContext<UserDbContext>(options => options.UseSqlite(connectionStringUsers));

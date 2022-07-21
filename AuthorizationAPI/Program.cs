@@ -1,6 +1,28 @@
+using AuthorizationAPI.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+////Токен
+//builder.Services.Configure<JWTSettings>(builder.Configuration.GetSection("JWTSettings"));
+
+//// секретные фразы, которые знает только сервер
+//var secretKey = builder.Configuration.GetSection("JWTSettings:SecretKey").Value;
+//var issuer = builder.Configuration.GetSection("JWTSettings:Issuer").Value;
+//var audience = builder.Configuration.GetSection("JWTSettings:Audience").Value;
+//var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+
+
+//БД
+var connectionStringUsers = builder.Configuration.GetConnectionString("UserDB");
+builder.Services.AddDbContext<UserDbContext>(options => options.UseSqlite(connectionStringUsers));
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<UserDbContext>();
+
+
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -18,6 +40,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -5,6 +5,7 @@ using RecipeAPI.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("RecipeDB");
 builder.Services.AddDbContext<RecipeDBContext>(options => options.UseSqlServer(connectionString));
@@ -36,4 +37,5 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+app.Run("https://localhost:7206");
+

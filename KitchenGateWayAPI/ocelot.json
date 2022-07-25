@@ -1,0 +1,30 @@
+{
+  "Routes": [
+
+    //Recipe API  ManagmentRecipe
+    {
+      "DownstreamPathTemplate": "/api/ManagmentRecipe/{everything}", //как шлюз обращается к микросервису
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "7206"
+        }
+      ],
+      "UpstreamPathTemplate": "/api/ManagmentRecipe/{everything}", //как пользователь обращается к шлюзу
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "KitchenOcelotKey",
+        "AllowedScopes": []
+      }
+
+      //"RouteClaimsRequirement": {
+
+      //}
+
+
+
+    } //end Recipe API  ManagmentRecipe
+  ]
+}

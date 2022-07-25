@@ -20,5 +20,12 @@ namespace RecipeAPI.Contract
         /// <param name="model"></param>
         /// <returns></returns>
         public Task DeleteRecipe(int idDel);
+
+        /// <summary>
+        /// Добавить или изменить ингредиенты существущего рецепта
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public Task AddorUpdateRecipe(RecipeNewModel model);
     }
 }

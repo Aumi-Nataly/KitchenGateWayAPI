@@ -46,10 +46,10 @@ namespace RecipeAPI.Service
 
                 connect.TblСomponents.Add(component);
             }
-            
+
             await connect.SaveChangesAsync();
 
-          
+
         }
 
 
@@ -68,6 +68,46 @@ namespace RecipeAPI.Service
                 connect.TblCatalogRecipes.Update(rec);
 
                 await connect.SaveChangesAsync();
+            }
+        }
+
+
+        public async Task AddorUpdateRecipe(RecipeNewModel model)
+        {
+            var rec = connect.TblCatalogRecipes.Where(x => x.Id == model.Id).FirstOrDefault();
+
+            if (rec != null)
+            {
+                foreach (var oneCom in model.Ingredients)
+                {
+                    var com = connect.TblСomponents.Where(x => x.Id == oneCom.Id).FirstOrDefault();
+
+                    if (com != null)
+                    {
+                        com.ComponentName = oneCom.Name;
+                        com.Comment = oneCom.Comment;
+
+                        //запись отслеживается, то вызов Update не требуется.
+                        //connect.TblСomponents.Update(component);
+
+                    }
+                    else
+                    {
+                        connect.TblСomponents.Add(
+                            new TblСomponent
+                            {
+                                Id = oneCom.Id,
+                                RecId = rec.Id,
+                                ComponentName = oneCom.Name,
+                                Comment = oneCom.Comment
+                            });
+                    }    
+
+                }
+
+                await connect.SaveChangesAsync();
+
+
             }
         }
     }

@@ -36,5 +36,16 @@ namespace RecipeAPI.Controllers
             await _managment.DeleteRecipe(idDel);
             return Ok();
         }
+
+        /// <summary>
+        /// Работа над составом рецепта
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("AddorUpdateRecipe")]
+        public async Task<IActionResult> AddorUpdateRecipe([FromBody] RecipeNewModel model)
+        {
+            await _managment.AddorUpdateRecipe(model);
+            return Ok();
+        }
     }
 }

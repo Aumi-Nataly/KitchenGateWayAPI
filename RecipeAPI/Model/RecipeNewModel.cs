@@ -9,5 +9,7 @@
         /// Список ингредиентов
         /// </summary>
         public List<IngredientModel> Ingredients { get; set; }
+
+       
     }
 }

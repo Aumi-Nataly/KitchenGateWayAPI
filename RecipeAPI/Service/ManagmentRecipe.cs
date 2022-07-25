@@ -13,9 +13,43 @@ namespace RecipeAPI.Service
             this.connect = connect;
         }
 
-        public Task NewRecipe(RecipeNewModel model)
+        /// <summary>
+        /// Создание рецепта
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task NewRecipe(RecipeModel model)
         {
-            throw new NotImplementedException();
+            //Вставка шапки 
+            var rec = new TblCatalogRecipe
+            {
+                CatId = model.CatId,
+                NameRecipe = model.Name,
+                UserNameAdd = model.UserName
+            };
+
+            connect.TblCatalogRecipes.Add(rec);
+
+            await connect.SaveChangesAsync();
+
+            //  Вставка состава рецепта
+
+            foreach (var oneCom in model.Ingredients)
+            {
+                var component = new TblСomponent
+                {
+
+                    RecId = rec.Id,
+                    ComponentName = oneCom.Name,
+                    Comment = oneCom.Comment
+                };
+
+                connect.TblСomponents.Add(component);
+            }
+            
+            await connect.SaveChangesAsync();
+
+          
         }
     }
 }

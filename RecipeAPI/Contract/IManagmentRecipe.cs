@@ -7,6 +7,11 @@ namespace RecipeAPI.Contract
     /// </summary>
     public interface IManagmentRecipe
     {
-        public Task NewRecipe(RecipeNewModel model);
+        /// <summary>
+        /// Создание рецепта
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public Task NewRecipe(RecipeModel model);
     }
 }

@@ -16,6 +16,8 @@ namespace RecipeAPI.RepDB.RecipeDB
         public DateTime? DateAddRecipe { get; set; }
         public string? UserNameAdd { get; set; }
 
+        public bool? Visible { get; set; }
+
         public virtual TblCategory Cat { get; set; } = null!;
         public virtual ICollection<TblСomponent> TblСomponents { get; set; }
     }

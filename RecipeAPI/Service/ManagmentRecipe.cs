@@ -18,7 +18,7 @@ namespace RecipeAPI.Service
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task NewRecipe(RecipeModel model)
+        public async Task NewRecipe(RecipeNewModel model)
         {
             //Вставка шапки 
             var rec = new TblCatalogRecipe
@@ -50,6 +50,25 @@ namespace RecipeAPI.Service
             await connect.SaveChangesAsync();
 
           
+        }
+
+
+        /// <summary>
+        /// Удаление рецепта. Проставление признака активности
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task DeleteRecipe(int idDel)
+        {
+            var rec = connect.TblCatalogRecipes.Where(x => x.Id == idDel).FirstOrDefault();
+
+            if (rec != null)
+            {
+                rec.Visible = false;
+                connect.TblCatalogRecipes.Update(rec);
+
+                await connect.SaveChangesAsync();
+            }
         }
     }
 }

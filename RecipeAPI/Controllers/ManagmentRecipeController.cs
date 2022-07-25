@@ -19,10 +19,21 @@ namespace RecipeAPI.Controllers
         /// </summary>
         /// <returns></returns>
          [HttpPost("NewRecipe")]
-        public async Task<IActionResult> NewRecipe([FromBody] RecipeModel model)
+        public async Task<IActionResult> NewRecipe([FromBody] RecipeNewModel model)
         {
           await _managment.NewRecipe(model);
 
+            return Ok();
+        }
+
+        /// <summary>
+        /// Удаление(скрытие) рецепта
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("DeleteRecipe")]
+        public async Task<IActionResult> DeleteRecipe([FromBody] int idDel)
+        {
+            await _managment.DeleteRecipe(idDel);
             return Ok();
         }
     }

@@ -1,7 +1,7 @@
 ﻿namespace RecipeAPI.Model
 {
     /// <summary>
-    /// Для создания нового рецепта
+    /// Модель шапки рецепта
     /// </summary>
     public class RecipeModel
     {
@@ -25,9 +25,7 @@
         /// </summary>
         public int CatId { get; set; }
 
-        /// <summary>
-        /// Список ингредиентов
-        /// </summary>
-        public List<IngredientModel> Ingredients { get; set; }
+
+       
     }
 }

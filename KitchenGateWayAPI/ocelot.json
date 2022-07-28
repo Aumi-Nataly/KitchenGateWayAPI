@@ -17,14 +17,17 @@
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "KitchenOcelotKey",
         "AllowedScopes": []
+        }
+          ,
+
+      "RouteClaimsRequirement": { //кому разрешено работать с методами
+        "Profession": "Chef",
+        "SeniorManager": "True"
+
       }
 
-      //"RouteClaimsRequirement": {
-
-      //}
 
 
-
-    } //end Recipe API  ManagmentRecipe
+      } //end Recipe API  ManagmentRecipe
   ]
 }

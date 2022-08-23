@@ -11,9 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeAPI", "RecipeAPI\Reci
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderAPI", "OrderAPI\OrderAPI.csproj", "{6BF30CED-3B82-48E0-8289-B990BBE1CC52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderAPI.Test", "OrderAPI.Test\OrderAPI.Test.csproj", "{D7AAB405-E98F-4D59-A7B7-4A447F4EC80C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderAPI.Test", "OrderAPI.Test\OrderAPI.Test.csproj", "{D7AAB405-E98F-4D59-A7B7-4A447F4EC80C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeApi.Test", "RecipeApi.Test\RecipeApi.Test.csproj", "{2639B11F-CCD5-4815-8900-4AEC24319938}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeApi.Test", "RecipeApi.Test\RecipeApi.Test.csproj", "{2639B11F-CCD5-4815-8900-4AEC24319938}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReceiptAPI", "ReceiptAPI\ReceiptAPI.csproj", "{9FE5D7F4-1CA1-400C-ABB5-FB9F40A7D059}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{2639B11F-CCD5-4815-8900-4AEC24319938}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2639B11F-CCD5-4815-8900-4AEC24319938}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2639B11F-CCD5-4815-8900-4AEC24319938}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FE5D7F4-1CA1-400C-ABB5-FB9F40A7D059}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FE5D7F4-1CA1-400C-ABB5-FB9F40A7D059}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FE5D7F4-1CA1-400C-ABB5-FB9F40A7D059}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FE5D7F4-1CA1-400C-ABB5-FB9F40A7D059}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

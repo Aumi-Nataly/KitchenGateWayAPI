@@ -1,10 +1,14 @@
 using OrderAPI.Contract;
 using OrderAPI.Service;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.Configure<string>(builder.Configuration.GetSection("ConnectionStrings:OrderDB"));
+
+builder.Host.UseSerilog((ctx, lc) => lc
+        .WriteTo.Seq("http://localhost:5341"));
 
 builder.Services.AddScoped<IReportAboutOrder, ServiceAboutOrder>();
 

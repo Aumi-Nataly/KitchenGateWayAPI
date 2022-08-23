@@ -11,9 +11,11 @@ namespace ReceiptAPI.Controllers
     {
         private ReportCheck _check;
         private string _SqlCon = "";
-        public CheckController(ReportCheck check, IConfiguration configuration)
+        private readonly ILogger<CheckController> _logger;
+        public CheckController(ReportCheck check, IConfiguration configuration, ILogger<CheckController> logger)
         {
-            _check=check;
+            _check = check;
+            _logger = logger;
 
             var cs = new ConnectStrings();
             configuration.GetSection(ConnectStrings.ConnectionStrings).Bind(cs);
@@ -25,14 +27,29 @@ namespace ReceiptAPI.Controllers
         [HttpGet("GetVersionPostgresql")]
         public async Task<ActionResult<string>> GetVersionPostgresql()
         {
-            return await _check.GetVersionPostgresql(_SqlCon);
-            
+            try
+            {
+                return await _check.GetVersionPostgresql(_SqlCon);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("контроллер CheckController метод GetVersionPostgresql {numberError}", ex.Message);
+                return null;
+            }
         }
 
         [HttpGet("GetCheckInfo/{id}")]
         public async Task<ActionResult<List<CheckInfo>>> GetCheckInfo(int id)
         {
-            return await _check.GetCheckInfo(id, _SqlCon);
+            try
+            {
+                return await _check.GetCheckInfo(id, _SqlCon);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("контроллер CheckController метод GetCheckInfo {numberError}", ex.Message);
+                return null;
+            }
 
         }
     }

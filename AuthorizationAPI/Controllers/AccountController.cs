@@ -16,13 +16,14 @@ namespace AuthorizationAPI.Controllers
         private readonly UserManager<IdentityUser> _userManager; //для управления пользователями (создание, поиск, удаление пользователя)
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly JWTSettings _options;
+        private readonly ILogger<AccountController> _logger;
 
-        public AccountController(UserManager<IdentityUser> user, SignInManager<IdentityUser> signIn, IOptions<JWTSettings> optAccess)
+        public AccountController(UserManager<IdentityUser> user, SignInManager<IdentityUser> signIn, IOptions<JWTSettings> optAccess, ILogger<AccountController> logger)
         {
             _userManager = user;
             _signInManager = signIn;
             _options = optAccess.Value;
-
+            _logger = logger;
         }
 
         /// <summary>
@@ -53,8 +54,11 @@ namespace AuthorizationAPI.Controllers
             }
             else
             {
+                _logger.LogError("контроллер AccountController метод Register {numberError}", "ошибка создания пользователя");
                 return Errors(result);
             }
+
+            _logger.LogInformation("Создан новый пользователь");
 
             return Ok();
 
@@ -82,7 +86,8 @@ namespace AuthorizationAPI.Controllers
 
                 return Ok(token);
             }
-
+            
+            _logger.LogError("контроллер AccountController метод Register {numberError}", "ошибка создания пользователя");
             return BadRequest();
         }
 

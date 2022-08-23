@@ -11,18 +11,15 @@ namespace OrderAPI.Controllers
     {
         private string _sqlCon;
         private IReportAboutOrder _report;
+        private readonly ILogger<AboutOrderController> _logger;
 
 
-        //public AboutOrderController(string sqlCon, IReportAboutOrder report)
-        //{
-        //    _sqlCon = sqlCon;
-        //    _report = report;
-        //}
 
-        public AboutOrderController( IReportAboutOrder report)
+        public AboutOrderController(IReportAboutOrder report, ILogger<AboutOrderController> logger)
         {
-         //   _sqlCon = sqlCon;
+            //   _sqlCon = sqlCon;
             _report = report;
+            _logger = logger;
         }
 
 
@@ -34,7 +31,15 @@ namespace OrderAPI.Controllers
         [HttpGet("OrderInfo/{orderid}")]
         public async Task<ActionResult<OrderModel>> OrderInfo(int orderid)
         {
-            return await _report.OrderInfo(orderid);
+            try
+            {
+                return await _report.OrderInfo(orderid);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("контроллер AboutOrderController метод OrderInfo {numberError}", ex.Message);
+                return null;
+            }
         }
 
 
@@ -44,9 +49,17 @@ namespace OrderAPI.Controllers
         /// <param name="Credentials"></param>
         /// <returns></returns>
         [HttpPost("OrdersContent")]
-        public async Task <ActionResult<IEnumerable<OrderContentModel>>> OrdersContent([FromBody] OrdersPeriod orders)
+        public async Task<ActionResult<IEnumerable<OrderContentModel>>> OrdersContent([FromBody] OrdersPeriod orders)
         {
-            return await _report.OrdersContent(orders);
+            try
+            {
+                return await _report.OrdersContent(orders);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("контроллер AboutOrderController метод OrdersContent {numberError}", ex.Message);
+                return null;
+            }
         }
     }
 }

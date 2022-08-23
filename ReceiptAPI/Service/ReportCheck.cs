@@ -57,8 +57,8 @@ namespace ReceiptAPI.Service
                                 Id = Convert.ToInt32(reader["id"]),
                                 DateAdd = Convert.ToDateTime(reader["dateadd"]),
                                 ProductName = reader["product_name"].ToString(),
-                                Money= Convert.ToDecimal(reader["price"])
-                            });
+                                Money= Convert.ToDecimal(reader["price"]) 
+                                });
 
                         }
                     }

@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using RecipeAPI.Contract;
 using RecipeAPI.RepDB.RecipeDB;
 using RecipeAPI.Service;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("RecipeDB");
 builder.Services.AddDbContext<RecipeDBContext>(options => options.UseSqlServer(connectionString));
+
+builder.Host.UseSerilog((ctx, lc) => lc
+        .WriteTo.Seq("http://localhost:5341"));
 
 builder.Services.AddScoped<IManagmentRecipe, ManagmentRecipe>();
 

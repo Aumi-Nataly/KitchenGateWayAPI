@@ -3,11 +3,14 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Host.UseSerilog((ctx, lc) => lc
+        .WriteTo.Seq("http://localhost:5341"));
 
 //Токен
 builder.Services.Configure<JWTSettings>(builder.Configuration.GetSection("JWTSettings"));

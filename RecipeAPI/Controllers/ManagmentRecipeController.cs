@@ -9,21 +9,30 @@ namespace RecipeAPI.Controllers
     public class ManagmentRecipeController : Controller
     {
         public readonly IManagmentRecipe _managment;
-        public ManagmentRecipeController(IManagmentRecipe managment)
+        private readonly ILogger<ManagmentRecipeController> _logger;
+        public ManagmentRecipeController(IManagmentRecipe managment, ILogger<ManagmentRecipeController> logger)
         {
-            _managment=managment;
+            _managment = managment;
+            _logger = logger;
         }
 
         /// <summary>
         /// Добавить новую запись рецепта
         /// </summary>
         /// <returns></returns>
-         [HttpPost("NewRecipe")]
+        [HttpPost("NewRecipe")]
         public async Task<IActionResult> NewRecipe([FromBody] RecipeNewModel model)
         {
-          await _managment.NewRecipe(model);
+            try { 
+            await _managment.NewRecipe(model);
 
             return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("контроллер ManagmentRecipeController метод AddorUpdateRecipe {numberError}", ex.Message);
+                return null;
+            }
         }
 
         /// <summary>
@@ -33,8 +42,16 @@ namespace RecipeAPI.Controllers
         [HttpPost("DeleteRecipe")]
         public async Task<IActionResult> DeleteRecipe([FromBody] int idDel)
         {
-            await _managment.DeleteRecipe(idDel);
-            return Ok();
+            try
+            {
+                await _managment.DeleteRecipe(idDel);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("контроллер ManagmentRecipeController метод AddorUpdateRecipe {numberError}", ex.Message);
+                return null;
+            }
         }
 
         /// <summary>
@@ -44,8 +61,16 @@ namespace RecipeAPI.Controllers
         [HttpPost("AddorUpdateRecipe")]
         public async Task<IActionResult> AddorUpdateRecipe([FromBody] RecipeNewModel model)
         {
-            await _managment.AddorUpdateRecipe(model);
-            return Ok();
+            try
+            {
+                await _managment.AddorUpdateRecipe(model);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("контроллер ManagmentRecipeController метод AddorUpdateRecipe {numberError}", ex.Message);
+                return null;
+            }
         }
     }
 }

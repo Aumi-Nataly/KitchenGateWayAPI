@@ -14,6 +14,8 @@
   <li>RecipeApi.Test</li>
 </ul>
 
+Логирование осуществляет Serilog, который пишет сообщения в единый журнал Seq.
+
 
 <h3>AuthorizationAPI</h3>
 
